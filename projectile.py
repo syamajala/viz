@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 G = 9.8
 
@@ -50,7 +51,7 @@ class Projectile():
         return (self.h, self.toh)
 
 
-def generate_data(runs):
+def generate_data(runs, output_dir=''):
 
     for run in range(1, runs+1):
         vel = np.random.uniform(1, 10000)
@@ -67,4 +68,9 @@ def generate_data(runs):
         df = pd.concat([time, pos, vel], axis=1)
         df['accel'] = -G
 
-        df.to_csv('mc%03d.csv.gz' % run, index=False, compression='gzip')
+        if output_dir:
+            output = os.path.join(output_dir, 'mc%03d.csv.gz')
+        else:
+            output = 'mc%03d.csv.gz'
+
+        df.to_csv(output % run, index=False, compression='gzip')
