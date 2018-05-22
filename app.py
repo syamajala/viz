@@ -1,8 +1,9 @@
 import dash
+from flask import Flask
 
-app = dash.Dash()
+server = Flask(__name__, template_folder='pages')
+app = dash.Dash(__name__, server=server)
 
-server = app.server
 server.config['SESSION_TYPE'] = 'filesystem'
 server.config['SECRET_KEY'] = 'mysecretkey'
 app.config.suppress_callback_exceptions = True

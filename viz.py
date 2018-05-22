@@ -19,17 +19,17 @@ app.layout = html.Div([
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
-def display_page(pathname):
-    if pathname == '/':
+def route(pathname):
+    if not session.get('configured', False):
         return user_config.layout
-    if pathname == '/homepage':
-        return homepage.layout
+    elif pathname == '/':
+        return homepage.build_layout(session)
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Analysis Tool')
-    parser.add_argument('-d', '--debug', dest='debug', action='store_true', default=False)
+    parser.add_argument('-d', '--debug', dest='debug', action='store_true', default=True)
     parser.add_argument('-p', '--port', dest='port', type=int, default=8050)
 
     args = parser.parse_args()
